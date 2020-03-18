@@ -14,12 +14,12 @@
       <div class="header__col">
         <h2 class="header__subtitle">find movie with</h2>
         <h1 class="header__title">
-          Open movie
-          <br />database
+          <span>Open movie</span>
+          <span>database</span>
         </h1>
         <div class="search-bar">
-          <input class="search-bar__input" />
-          <button class="search-bar__btn btn">Search</button>
+          <input v-model="filmName" @change="change" class="search-bar__input" />
+          <router-link class="search-bar__btn btn" to="/search">Search</router-link>
         </div>
       </div>
     </div>
@@ -27,14 +27,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "Header",
+  computed: mapState(["filmName"]),
 
   data() {
     return {};
   },
 
-  methods: {}
+  methods: {
+    change() {}
+  }
 };
 </script>
 
@@ -124,6 +128,10 @@ export default {
     line-height: 100%;
     margin: 2rem 0;
     transition: 0.3s;
+
+    & span {
+      display: block;
+    }
   }
 
   &__subtitle {
@@ -154,11 +162,10 @@ export default {
     color: white;
   }
   &__btn {
-    width: calc(30% - 2rem);
-    height: 8.2rem;
     margin-left: 2rem;
     border-radius: 4.1rem;
     animation: show-btn 1s 2s both linear;
+    padding: 2.8rem 5.4rem;
   }
 }
 

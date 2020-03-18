@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input v-model="name" />
+    <input v-model="filmName" />
     <button v-on:click="test">TEST</button>
     <ul>
       <template v-for="list in films">
@@ -18,14 +18,16 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
+
 export default {
   name: "Search",
+  computed: mapState(["filmName"]),
 
   data() {
     return {
       films: [],
-      error: false,
-      name: ""
+      error: false
     };
   },
 
@@ -35,7 +37,7 @@ export default {
       for (let i = 1; i < 3; i++) {
         axios
           .get(
-            `https://www.omdbapi.com/?apikey=81a9086&s=${this.name}&page=${i}`
+            `https://www.omdbapi.com/?apikey=81a9086&s=${this.filmName}&page=${i}`
           )
           .then(response => {
             if (response.data.Search != undefined) {

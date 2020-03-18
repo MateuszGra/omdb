@@ -4,6 +4,11 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "App"
+};
+</script>
 
 <style lang="scss">
 * {
@@ -33,6 +38,10 @@ input,
 button,
 a {
   outline: none;
+}
+
+a {
+  text-decoration: none;
 }
 
 .btn {
