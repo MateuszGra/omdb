@@ -17,27 +17,33 @@
           <span>Open movie</span>
           <span>database</span>
         </h1>
-        <div class="search-bar">
-          <input v-model="filmName" @change="change" class="search-bar__input" />
-          <router-link class="search-bar__btn btn" to="/search">Search</router-link>
-        </div>
+        <form class="search-bar" v-on:submit.prevent="changeLocation">
+          <input type="text" v-model="filmName" class="search-bar__input" />
+          <button class="search-bar__btn btn" to="/search">Search</button>
+        </form>
       </div>
     </div>
   </header>
 </template>
 
 <script>
-import { mapState } from "vuex";
 export default {
   name: "Header",
-  computed: mapState(["filmName"]),
 
   data() {
-    return {};
+    return {
+      filmName: "Star Wars"
+    };
   },
 
   methods: {
-    change() {}
+    changeLocation() {
+      if (this.filmName != "") {
+        window.location = `./search#${this.filmName}`;
+      } else {
+        window.location = `./search`;
+      }
+    }
   }
 };
 </script>

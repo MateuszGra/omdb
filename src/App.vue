@@ -36,6 +36,7 @@ span {
 
 input,
 button,
+select,
 a {
   outline: none;
 }
@@ -57,5 +58,15 @@ a {
   &:hover {
     box-shadow: 0px 0px 30px #f40048;
   }
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 </style>

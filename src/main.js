@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-import store from './store.js'
-
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
@@ -20,11 +18,11 @@ const routes = [{
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 
 new Vue({
-  store,
   router,
   render: h => h(App),
 }).$mount('#app')
