@@ -39,7 +39,7 @@ export default {
   methods: {
     changeLocation() {
       if (this.filmName != "") {
-        window.location = `./search#${this.filmName}`;
+        window.location = `./search#${this.filmName}&&`;
       } else {
         window.location = `./search`;
       }
