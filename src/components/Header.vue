@@ -4,8 +4,6 @@
     <div class="header__images">
       <div class="header__popcorn">
         <img class="header__image" src="../assets/popcorn.png" alt="popcorn" />
-        <img class="header__shadow left" src="../assets/popcorn-svg-blue.svg" alt="popcorn shadow" />
-        <img class="header__shadow right" src="../assets/popcorn-svg-red.svg" alt="popcorn shadow" />
         <img class="header__fall" src="../assets/popcorn1.png" alt="popcorn" />
         <img class="header__glass3d" src="../assets/glasses3d.png" alt="3d glasses" />
       </div>
@@ -79,22 +77,6 @@ export default {
 
   &__image {
     width: 100%;
-  }
-
-  &__shadow {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: 0;
-
-    &.left {
-      transform: translateX(-2%);
-      z-index: -1;
-    }
-    &.right {
-      transform: translateX(1.5%);
-      z-index: -2;
-    }
   }
 
   &__fall {

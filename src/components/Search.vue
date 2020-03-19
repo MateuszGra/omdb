@@ -1,17 +1,24 @@
 <template>
   <div>
     <section class="options">
-      <form form v-on:submit.prevent="getMovies" class="options__row">
+      <form form v-on:submit.prevent="getNewMovies" class="options__row">
         <div class="filters">
           <span class="filters__label">Filter</span>
-          <select v-model="filmType" class="filters__option select input" @change="getMovies">
+          <select v-model="filmType" class="filters__option select input" @change="getNewMovies">
             <option value>Type</option>
             <option value="movie">Movie</option>
             <option value="series">Series</option>
             <option value="episode">Episode</option>
             <option value="game">Game</option>
           </select>
-          <input class="filters__option input" type="number" placeholder="Year" v-model="filmYear" />
+          <input
+            class="filters__option input"
+            type="number"
+            placeholder="Year"
+            min="1870"
+            max="9999"
+            v-model="filmYear"
+          />
         </div>
         <div class="search">
           <input class="input search__input" v-model="filmName" />
@@ -34,9 +41,10 @@
           </div>
           <div class="films__poster-wrapper">
             <img class="films__poster" v-if="film.Poster != 'N/A'" :src="film.Poster" />
-            <img class="films__poster" v-if="film.Poster == 'N/A'" src="../assets/popcorn.png" />
+            <img class="films__poster" v-if="film.Poster == 'N/A'" src="../assets/poster.png" />
           </div>
           <h2 class="films__title">{{ film.Title }}</h2>
+          <span class="films__arrow">read more</span>
         </li>
       </template>
       <p v-if="error">Brak wyników :(</p>
@@ -58,12 +66,14 @@ export default {
       this.filmType = hash[2];
     }
     this.getMovies();
+    window.addEventListener("scroll", this.handleScroll);
   },
 
   data() {
     return {
       films: [],
       results: 0,
+      pages: 0,
       error: false,
       filmName: "Star Wars",
       filmType: "",
@@ -72,12 +82,25 @@ export default {
   },
 
   methods: {
-    getMovies() {
+    getNewMovies() {
       this.films = [];
+      this.pages = 0;
+      this.getMovies();
+    },
+    handleScroll() {
+      let currentPos = window.pageYOffset + window.innerHeight;
+      let pageHight = document.body.offsetHeight;
+      console.log(this.pages);
+      if (currentPos > pageHight - 100 && this.pages < 99) {
+        this.getMovies();
+      }
+    },
+    getMovies() {
       for (let i = 1; i < 3; i++) {
+        this.pages++;
         axios
           .get(
-            `https://www.omdbapi.com/?apikey=81a9086&s=${this.filmName}&y=${this.filmYear}&type=${this.filmType}&page=${i}`
+            `https://www.omdbapi.com/?apikey=81a9086&s=${this.filmName}&y=${this.filmYear}&type=${this.filmType}&page=${this.pages}`
           )
           .then(response => {
             if (response.data.Search != undefined) {
@@ -85,9 +108,9 @@ export default {
               this.results = response.data.totalResults;
               this.error = false;
             } else {
-              i = 3;
               this.error = true;
               this.results = 0;
+              return "stop";
             }
             window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}`;
           })
@@ -122,7 +145,7 @@ export default {
     option {
       background: #090331;
       margin: 1rem 0;
-      line-height: 12rem !important;
+      cursor: pointer;
     }
 
     &.select {
@@ -130,10 +153,11 @@ export default {
       background-repeat: no-repeat;
       background-position: calc(100% - 2.5rem);
       background-size: 1.3rem;
+      cursor: pointer;
     }
 
     &::placeholder {
-      color: white;
+      color: rgba(250, 250, 250, 0.5);
     }
 
     &:first-child {
@@ -176,7 +200,7 @@ export default {
 
 .results {
   font-size: 1.7rem;
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   font-weight: 200;
 }
 
@@ -188,13 +212,17 @@ export default {
   &__film {
     display: flex;
     flex-direction: column;
-    margin-top: 8rem;
+    margin-top: 6rem;
     padding: 0 2.5rem;
     width: calc(25%);
     cursor: pointer;
 
     &:hover .films__poster-wrapper::after {
       transform: scale(1);
+    }
+    &:hover .films__arrow {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
@@ -236,7 +264,7 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 0 10%;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     font-size: 2rem;
   }
 
@@ -245,10 +273,10 @@ export default {
   }
 
   &__type {
-    padding-left: 4.5rem;
+    padding-left: 3rem;
     background-repeat: no-repeat;
     background-position: left;
-    background-size: 4.5rem;
+    background-size: 2rem;
     font-weight: 600;
 
     &::first-letter {
@@ -260,14 +288,34 @@ export default {
     &.episode {
       background-image: url("../assets/movie-icon.svg");
     }
+
+    &.game {
+      background-image: url("../assets/game-icon.svg");
+    }
   }
 
   &__title {
     padding: 0 10%;
+    margin-bottom: 1rem;
     font-family: "Bebas Neue", cursive;
     font-size: 3rem;
     font-weight: 400;
     line-height: 3.2rem;
+  }
+
+  &__arrow {
+    font-family: "Montserrat", sans-serif;
+    font-size: 18px;
+    font-weight: 200;
+    padding-left: 5rem;
+    margin: 0 0 0 10%;
+    background-image: url("../assets/arrow-icon.svg");
+    background-repeat: no-repeat;
+    background-position: left;
+    will-change: transform, opacity;
+    transition: transform 0.5s, opacity 0.5s;
+    opacity: 0;
+    transform: translateY(2rem);
   }
 }
 </style>
