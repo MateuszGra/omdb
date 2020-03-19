@@ -30,7 +30,7 @@ export default {
 
   data() {
     return {
-      filmName: "Star Wars"
+      filmName: ""
     };
   },
 

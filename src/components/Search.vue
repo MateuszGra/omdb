@@ -76,7 +76,7 @@ export default {
       results: 0,
       pages: 0,
       error: false,
-      filmName: "Star Wars",
+      filmName: "",
       filmType: "",
       filmYear: null
     };
