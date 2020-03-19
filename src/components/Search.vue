@@ -71,6 +71,7 @@ export default {
 
   data() {
     return {
+      cooldownAjax: false,
       films: [],
       results: 0,
       pages: 0,
@@ -88,10 +89,13 @@ export default {
       this.getMovies();
     },
     handleScroll() {
-      let currentPos = window.pageYOffset + window.innerHeight;
-      let pageHight = document.body.offsetHeight;
-      console.log(this.pages);
-      if (currentPos > pageHight - 100 && this.pages < 99) {
+      let windowBottom = document.documentElement.getBoundingClientRect()
+        .bottom;
+
+      if (
+        windowBottom < document.documentElement.clientHeight + 100 &&
+        this.cooldownAjax == false
+      ) {
         this.getMovies();
       }
     },
@@ -118,6 +122,10 @@ export default {
             console.log(error);
           });
       }
+      this.cooldownAjax = true;
+      setTimeout(() => {
+        this.cooldownAjax = false;
+      }, 500);
     }
   }
 };
