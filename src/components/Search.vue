@@ -91,13 +91,11 @@ export default {
     handleScroll() {
       let windowBottom = document.documentElement.getBoundingClientRect()
         .bottom;
-      console.log(this.results);
-      console.log(this.pages * 20);
       if (
         windowBottom < document.documentElement.clientHeight + 100 &&
         this.cooldownAjax == false &&
         this.pages < 99 &&
-        this.results > this.pages * 10
+        parseInt(this.results) > this.pages * 10
       ) {
         this.getMovies();
       }
@@ -110,14 +108,15 @@ export default {
             `https://www.omdbapi.com/?apikey=81a9086&s=${this.filmName}&y=${this.filmYear}&type=${this.filmType}&page=${this.pages}`
           )
           .then(response => {
-            if (response.data.Search != undefined) {
+            if (response.data.Response === "True") {
               this.films.push(response.data.Search);
               this.results = response.data.totalResults;
               this.error = false;
             } else {
-              this.error = true;
-              this.results = 0;
-              return "stop";
+              if (this.pages <= 2) {
+                this.error = true;
+                this.results = 0;
+              }
             }
             window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}`;
           })
