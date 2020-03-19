@@ -91,10 +91,13 @@ export default {
     handleScroll() {
       let windowBottom = document.documentElement.getBoundingClientRect()
         .bottom;
-
+      console.log(this.results);
+      console.log(this.pages * 20);
       if (
         windowBottom < document.documentElement.clientHeight + 100 &&
-        this.cooldownAjax == false
+        this.cooldownAjax == false &&
+        this.pages < 99 &&
+        this.results > this.pages * 10
       ) {
         this.getMovies();
       }
