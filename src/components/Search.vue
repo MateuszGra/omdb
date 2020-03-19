@@ -92,7 +92,7 @@ export default {
       let windowBottom = document.documentElement.getBoundingClientRect()
         .bottom;
       if (
-        windowBottom < document.documentElement.clientHeight + 100 &&
+        windowBottom < document.documentElement.clientHeight + 200 &&
         this.cooldownAjax == false &&
         this.pages < 99 &&
         parseInt(this.results) > this.pages * 10
@@ -113,7 +113,7 @@ export default {
               this.results = response.data.totalResults;
               this.error = false;
             } else {
-              if (this.pages <= 2) {
+              if (this.films.length === 0) {
                 this.error = true;
                 this.results = 0;
               }
