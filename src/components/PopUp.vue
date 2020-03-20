@@ -1,28 +1,39 @@
 <template>
-  <div v-on:click="close" class="popup js-close" v-bind:class="this.PopUpClass">
+  <div v-on:click="close" class="popup js-close" :class="this.PopUpClass">
     <div class="popup__content">
       <button class="popup__btn js-close"></button>
-      <div class="popup__left-col">
-        <div class="rating">
-          <div class="rating__left-col">
-            <div class="rating__stars">
-              <img
-                v-for="star in stars"
-                :key="star.id"
-                class="rating__star"
-                alt="star"
-                v-bind:src="star"
-              />
+      <div v-if="ajax" class="popup__resp">
+        <div class="popup__left-col">
+          <div class="rating">
+            <div class="rating__left-col">
+              <div class="rating__stars">
+                <img
+                  v-for="star in stars"
+                  :key="star.id"
+                  class="rating__star"
+                  alt="star"
+                  :src="star"
+                />
+              </div>
+              <span class="rating__votes">Votes: {{filmData.imdbVotes}}</span>
             </div>
-            <span class="rating__votes">Votes: {{filmData.imdbVotes}}</span>
+          </div>
+          <div class="poster">
+            <img class="poster__image" v-if="filmData.Poster != 'N/A'" :src="filmData.Poster" />
+            <img class="poster__image" v-if="filmData.Poster == 'N/A'" src="../assets/poster.png" />
           </div>
         </div>
-        <div class="poster">
-          <img class="poster__image" v-if="filmData.Poster != 'N/A'" :src="filmData.Poster" />
-          <img class="poster__image" v-if="filmData.Poster == 'N/A'" src="../assets/poster.png" />
+        <h1>{{filmData.Title}}</h1>
+      </div>
+      <div v-if="!ajax" class="loader">
+        <div class="loader__wrappeer">
+          <img class="loader__popcorn" src="../assets/loader-popcorn.svg" />
+          <img class="loader__crumb crumb1" src="../assets/loader-crumb1.svg" />
+          <img class="loader__crumb crumb2" src="../assets/loader-crumb2.svg" />
+          <img class="loader__crumb crumb3" src="../assets/loader-crumb1.svg" />
+          <img class="loader__crumb crumb4" src="../assets/loader-crumb2.svg" />
         </div>
       </div>
-      <h1>{{filmData.Title}}</h1>
     </div>
   </div>
 </template>
@@ -38,11 +49,13 @@ export default {
   data() {
     return {
       filmData: [],
-      stars: []
+      stars: [],
+      ajax: false
     };
   },
   watch: {
     filmID: function() {
+      this.ajax = false;
       axios
         .get(`https://www.omdbapi.com/?apikey=81a9086&i=${this.filmID}`)
         .then(response => {
@@ -62,6 +75,7 @@ export default {
               this.stars[i] = require("../assets/star0-10.svg");
             }
           }
+          this.ajax = true;
         })
         .catch(error => {
           console.log(error);
@@ -92,7 +106,6 @@ export default {
     z-index: -1000;
 
     & .popup__content {
-      transform: translate(-50%, -45%);
       opacity: 0;
     }
   }
@@ -102,15 +115,13 @@ export default {
     z-index: 1000;
 
     & .popup__content {
-      transition: transform 0.7s, opacity 0.7s;
-      transform: translate(-50%, -50%);
+      transition: opacity 1s;
       opacity: 1;
     }
   }
 
   &__content {
     position: absolute;
-    display: flex;
     left: 50%;
     top: 50%;
     width: 75%;
@@ -118,8 +129,15 @@ export default {
     background: #090331;
     border-radius: 1.7rem;
     box-shadow: 0px 0px 4rem #ffffff66;
-    will-change: opacity, transform;
+    will-change: opacity;
     overflow: auto;
+    transform: translate(-50%, -50%);
+  }
+
+  &__resp {
+    display: flex;
+    width: 100%;
+    height: 100%;
   }
 
   &__btn {
@@ -183,6 +201,7 @@ export default {
   left: 0;
   background: #f40048;
   border-radius: 1.7rem;
+  box-shadow: 0rem 0.3rem 0.6rem #00000029;
 
   &__votes {
     font-family: "Montserrat", sans-serif;
@@ -205,6 +224,67 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+}
+
+.loader {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #090331;
+
+  &__wrappeer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__popcorn {
+    height: 10rem;
+    width: auto;
+  }
+  &__crumb {
+    position: absolute;
+    height: 1.7rem;
+
+    @keyframes jump {
+      0% {
+        transform: translateY(0rem) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-3rem) rotate(180deg);
+      }
+
+      100% {
+        transform: translateY(0rem) rotate(360deg);
+      }
+    }
+
+    &.crumb1 {
+      left: -12%;
+      top: 0%;
+      animation: jump 0.7s 0.5s both infinite;
+    }
+
+    &.crumb2 {
+      left: 18%;
+      top: -20%;
+      animation: jump 0.8s 0.1s both infinite;
+    }
+
+    &.crumb3 {
+      left: 55%;
+      top: -23%;
+      animation: jump 0.5s 0.2s both infinite;
+    }
+
+    &.crumb4 {
+      left: 93%;
+      top: 0%;
+      animation: jump 0.5s both infinite;
+    }
   }
 }
 </style>

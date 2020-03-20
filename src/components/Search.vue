@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PopUp @clicked="handlePopUp" v-bind:PopUpClass="PopUpClass" v-bind:filmID="filmID" />
+    <PopUp @clicked="handlePopUp" :PopUpClass="PopUpClass" :filmID="filmID" />
     <router-link class="home-link" to="/">home</router-link>
     <section class="options">
       <form form v-on:submit.prevent="getNewMovies" class="options__row">
@@ -39,13 +39,13 @@
         <li
           class="films__film"
           v-for="film in list"
-          :key="film.imdbID"
+          :key="film.id"
           v-on:click="handleFilm"
           :data-id="film.imdbID"
         >
           <div class="films__info">
             <span class="films__year">{{ film.Year }}</span>
-            <span class="films__type" v-bind:class="film.Type">{{ film.Type }}</span>
+            <span class="films__type" :class="film.Type">{{ film.Type }}</span>
           </div>
           <div class="films__poster-wrapper">
             <img class="films__poster" v-if="film.Poster != 'N/A'" :src="film.Poster" />
