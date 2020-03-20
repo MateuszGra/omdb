@@ -1,5 +1,7 @@
 <template>
   <div>
+    <PopUp @clicked="handlePopUp" v-bind:PopUpClass="PopUpClass" v-bind:filmID="filmID" />
+    <router-link class="home-link" to="/">home</router-link>
     <section class="options">
       <form form v-on:submit.prevent="getNewMovies" class="options__row">
         <div class="filters">
@@ -34,7 +36,13 @@
     </section>
     <ul class="films">
       <template v-for="list in films">
-        <li class="films__film" v-for="film in list" :key="film.imdbID">
+        <li
+          class="films__film"
+          v-for="film in list"
+          :key="film.imdbID"
+          v-on:click="handleFilm"
+          :data-id="film.imdbID"
+        >
           <div class="films__info">
             <span class="films__year">{{ film.Year }}</span>
             <span class="films__type" v-bind:class="film.Type">{{ film.Type }}</span>
@@ -54,23 +62,18 @@
 
 <script>
 import axios from "axios";
+import PopUp from "./PopUp.vue";
 
 export default {
   name: "Search",
-  created() {
-    let hash = window.location.hash.substring(1);
-    if (hash) {
-      hash = hash.split("&");
-      this.filmName = decodeURI(hash[0]);
-      this.filmYear = hash[1];
-      this.filmType = hash[2];
-    }
-    this.getMovies();
-    window.addEventListener("scroll", this.handleScroll);
+  components: {
+    PopUp
   },
 
   data() {
     return {
+      PopUpClass: "hide",
+      filmID: "",
       cooldownAjax: false,
       films: [],
       results: 0,
@@ -82,7 +85,34 @@ export default {
     };
   },
 
+  created() {
+    let hash = window.location.hash.substring(1);
+    if (hash) {
+      hash = hash.split("&");
+      this.filmName = decodeURI(hash[0]);
+      this.filmYear = hash[1];
+      this.filmType = hash[2];
+      if (hash[3]) {
+        setTimeout(() => {
+          this.PopUpClass = "show";
+          this.filmID = hash[3];
+        }, 50);
+      }
+    }
+    this.getMovies();
+    window.addEventListener("scroll", this.handleScroll);
+  },
+
   methods: {
+    handlePopUp(value) {
+      this.PopUpClass = value;
+      window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}&`;
+    },
+    handleFilm(event) {
+      this.PopUpClass = "show";
+      this.filmID = event.target.closest(".films__film").dataset.id;
+      window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}&${this.filmID}`;
+    },
     getNewMovies() {
       this.films = [];
       this.pages = 0;
@@ -118,7 +148,11 @@ export default {
                 this.results = 0;
               }
             }
-            window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}`;
+            if (this.filmID == "") {
+              window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}&`;
+            } else {
+              window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}&${this.filmID}`;
+            }
           })
           .catch(error => {
             console.log(error);
@@ -135,6 +169,35 @@ export default {
 
 
 <style lang="scss" scoped>
+.home-link {
+  position: absolute;
+  top: 5.6rem;
+  left: 0;
+  font-family: "Montserrat", sans-serif;
+  font-size: 2.2rem;
+  line-height: 5.6rem;
+  font-weight: 500;
+  background: #f40048;
+  height: 5.3rem;
+  color: white;
+  padding: 0 7rem 0 2rem;
+  border-top-right-radius: 2.7rem;
+  border-bottom-right-radius: 2.7rem;
+  text-transform: uppercase;
+  z-index: 10;
+  background-image: url("../assets/home-icon.svg");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 2rem);
+  background-size: 2rem;
+  will-change: transition;
+  transition: 0.3s;
+  transform: translate(-11rem);
+
+  &:hover {
+    transform: translate(0);
+    box-shadow: 0px 0px 30px #f40048;
+  }
+}
 .input {
   -webkit-appearance: none;
   background: transparent;

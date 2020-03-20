@@ -17,7 +17,7 @@
         </h1>
         <form class="search-bar" v-on:submit.prevent="changeLocation">
           <input type="text" v-model="filmName" class="search-bar__input" />
-          <button class="search-bar__btn btn" to="/search">Search</button>
+          <button class="search-bar__btn btn">Search</button>
         </form>
       </div>
     </div>
@@ -37,7 +37,7 @@ export default {
   methods: {
     changeLocation() {
       if (this.filmName != "") {
-        window.location = `./search#${this.filmName}&&`;
+        window.location = `./search#${this.filmName}&&&`;
       } else {
         window.location = `./search`;
       }
