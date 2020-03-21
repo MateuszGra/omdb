@@ -17,6 +17,11 @@
               </div>
               <span class="rating__votes">Votes: {{filmData.imdbVotes}}</span>
             </div>
+            <div class="rating__numbers">
+              <span class="rating__number big">{{filmData.imdbRating}}</span>
+              <span class="rating__number medium">/</span>
+              <span class="rating__number small">10</span>
+            </div>
           </div>
           <div class="poster">
             <img class="poster__image" v-if="filmData.Poster != 'N/A'" :src="filmData.Poster" />
@@ -75,6 +80,10 @@ export default {
                 this.stars[i] = require("../assets/star0-10.svg");
               }
             }
+            this.filmData.imdbRating = this.filmData.imdbRating.replace(
+              ".",
+              ","
+            );
             this.ajax = true;
           })
           .catch(error => {
@@ -195,9 +204,11 @@ export default {
 .rating {
   position: absolute;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   height: 16.3rem;
   width: 100%;
-  padding: 0 3.5rem;
+  padding: 0 2.5rem;
   top: 0;
   left: 0;
   background: #f40048;
@@ -210,9 +221,31 @@ export default {
   }
 
   &__star {
-    width: 2.3rem;
-    height: 2.3rem;
+    width: 2rem;
+    height: 2rem;
     margin: 0 0.2rem;
+  }
+
+  &__numbers {
+    display: flex;
+    align-items: center;
+    font-family: "Baloo 2", cursive;
+    font-weight: 400;
+  }
+
+  &__number {
+    &.big {
+      font-size: 5rem;
+    }
+
+    &.medium {
+      font-size: 2.9rem;
+      margin: 0 0.5rem;
+    }
+
+    &.small {
+      font-size: 2.9rem;
+    }
   }
 }
 
