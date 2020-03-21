@@ -108,9 +108,10 @@ export default {
       }
 
       if (this.filmData.imdbVotes === "N/A") this.filmData.imdbVotes = 0;
-      if (this.filmData.imdbRating === "N/A") this.filmData.imdbRating = 0;
-      if (Number.isInteger(parseFloat(this.filmData.imdbRating))) {
-        this.filmData.imdbRating = parseInt(this.filmData.imdbRating);
+      if (this.filmData.imdbRating === "10.0") {
+        this.filmData.imdbRating = "10";
+      } else if (this.filmData.imdbRating === "N/A") {
+        this.filmData.imdbRating = "0";
       } else {
         this.filmData.imdbRating = this.filmData.imdbRating.replace(".", ",");
       }
