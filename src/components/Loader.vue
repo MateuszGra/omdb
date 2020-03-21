@@ -1,5 +1,5 @@
 <template>
-  <div class="loader" :class="this.clas">
+  <div class="loader" :class="clas">
     <div class="loader__wrappeer">
       <img class="loader__popcorn" src="../assets/loader-popcorn.svg" />
       <img class="loader__crumb crumb1" src="../assets/loader-crumb1.svg" />
