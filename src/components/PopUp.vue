@@ -25,27 +25,26 @@
         </div>
         <h1>{{filmData.Title}}</h1>
       </div>
-      <div v-if="!ajax" class="loader">
-        <div class="loader__wrappeer">
-          <img class="loader__popcorn" src="../assets/loader-popcorn.svg" />
-          <img class="loader__crumb crumb1" src="../assets/loader-crumb1.svg" />
-          <img class="loader__crumb crumb2" src="../assets/loader-crumb2.svg" />
-          <img class="loader__crumb crumb3" src="../assets/loader-crumb1.svg" />
-          <img class="loader__crumb crumb4" src="../assets/loader-crumb2.svg" />
-        </div>
-      </div>
+      <Loader v-if="!ajax" clas="popup" />
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import Loader from "./Loader.vue";
+
 export default {
   name: "PopUp",
   props: {
     PopUpClass: String,
     filmID: String
   },
+
+  components: {
+    Loader
+  },
+
   data() {
     return {
       filmData: [],
@@ -55,31 +54,33 @@ export default {
   },
   watch: {
     filmID: function() {
-      this.ajax = false;
-      axios
-        .get(`https://www.omdbapi.com/?apikey=81a9086&i=${this.filmID}`)
-        .then(response => {
-          this.filmData = response.data;
-          this.filmData.Poster = this.filmData.Poster.replace("300", "1000");
-          let rating = parseFloat(this.filmData.imdbRating);
-          for (let i = 0; i < 10; i++) {
-            if (rating > 1) {
-              rating = rating - 1;
-              this.stars[i] = require("../assets/star10-10.svg");
-            } else if (rating > 0) {
-              this.stars[i] = require(`../assets/star${Math.round(
-                rating * 10
-              )}-10.svg`);
-              rating = 0;
-            } else {
-              this.stars[i] = require("../assets/star0-10.svg");
+      if (this.filmID) {
+        this.ajax = false;
+        axios
+          .get(`https://www.omdbapi.com/?apikey=81a9086&i=${this.filmID}`)
+          .then(response => {
+            this.filmData = response.data;
+            this.filmData.Poster = this.filmData.Poster.replace("300", "1000");
+            let rating = parseFloat(this.filmData.imdbRating);
+            for (let i = 0; i < 10; i++) {
+              if (rating > 1) {
+                rating = rating - 1;
+                this.stars[i] = require("../assets/star10-10.svg");
+              } else if (rating > 0) {
+                this.stars[i] = require(`../assets/star${Math.round(
+                  rating * 10
+                )}-10.svg`);
+                rating = 0;
+              } else {
+                this.stars[i] = require("../assets/star0-10.svg");
+              }
             }
-          }
-          this.ajax = true;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+            this.ajax = true;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     }
   },
   methods: {
@@ -224,67 +225,6 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-}
-
-.loader {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #090331;
-
-  &__wrappeer {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  &__popcorn {
-    height: 10rem;
-    width: auto;
-  }
-  &__crumb {
-    position: absolute;
-    height: 1.7rem;
-
-    @keyframes jump {
-      0% {
-        transform: translateY(0rem) rotate(0deg);
-      }
-
-      50% {
-        transform: translateY(-3rem) rotate(180deg);
-      }
-
-      100% {
-        transform: translateY(0rem) rotate(360deg);
-      }
-    }
-
-    &.crumb1 {
-      left: -12%;
-      top: 0%;
-      animation: jump 0.7s 0.5s both infinite;
-    }
-
-    &.crumb2 {
-      left: 18%;
-      top: -20%;
-      animation: jump 0.8s 0.1s both infinite;
-    }
-
-    &.crumb3 {
-      left: 55%;
-      top: -23%;
-      animation: jump 0.5s 0.2s both infinite;
-    }
-
-    &.crumb4 {
-      left: 93%;
-      top: 0%;
-      animation: jump 0.5s both infinite;
-    }
   }
 }
 </style>

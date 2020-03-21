@@ -34,9 +34,9 @@
         </span>
       </div>
     </section>
-    <ul class="films">
+    <section class="films">
       <template v-for="list in films">
-        <li
+        <div
           class="films__film"
           v-for="film in list"
           :key="film.id"
@@ -53,25 +53,34 @@
           </div>
           <h2 class="films__title">{{ film.Title }}</h2>
           <span class="films__arrow">read more</span>
-        </li>
+        </div>
       </template>
-      <p v-if="error">Brak wyników :(</p>
-    </ul>
+      <Loader v-if="!ajax" clas="search" />
+      <img
+        v-if="error"
+        class="films__no-results"
+        alt="no results"
+        src="../assets/no-search-result.png"
+      />
+    </section>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import PopUp from "./PopUp.vue";
+import Loader from "./Loader.vue";
 
 export default {
   name: "Search",
   components: {
-    PopUp
+    PopUp,
+    Loader
   },
 
   data() {
     return {
+      ajax: false,
       PopUpClass: "hide",
       filmID: "",
       cooldownAjax: false,
@@ -106,6 +115,7 @@ export default {
   methods: {
     handlePopUp(value) {
       this.PopUpClass = value;
+      this.filmID = "";
       window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}&`;
     },
     handleFilm(event) {
@@ -119,10 +129,9 @@ export default {
       this.getMovies();
     },
     handleScroll() {
-      let windowBottom = document.documentElement.getBoundingClientRect()
-        .bottom;
       if (
-        windowBottom < document.documentElement.clientHeight + 200 &&
+        window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - 200 &&
         this.cooldownAjax == false &&
         this.pages < 99 &&
         parseInt(this.results) > this.pages * 10
@@ -131,33 +140,33 @@ export default {
       }
     },
     getMovies() {
-      for (let i = 1; i < 3; i++) {
-        this.pages++;
-        axios
-          .get(
-            `https://www.omdbapi.com/?apikey=81a9086&s=${this.filmName}&y=${this.filmYear}&type=${this.filmType}&page=${this.pages}`
-          )
-          .then(response => {
-            if (response.data.Response === "True") {
-              this.films.push(response.data.Search);
-              this.results = response.data.totalResults;
-              this.error = false;
-            } else {
-              if (this.films.length === 0) {
-                this.error = true;
-                this.results = 0;
-              }
+      this.pages++;
+      this.error = false;
+      this.ajax = false;
+      axios
+        .get(
+          `https://www.omdbapi.com/?apikey=81a9086&s=${this.filmName}&y=${this.filmYear}&type=${this.filmType}&page=${this.pages}`
+        )
+        .then(response => {
+          if (response.data.Response === "True") {
+            this.films.push(response.data.Search);
+            this.results = response.data.totalResults;
+          } else {
+            if (this.films.length === 0) {
+              this.error = true;
+              this.results = 0;
             }
-            if (this.filmID == "") {
-              window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}&`;
-            } else {
-              window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}&${this.filmID}`;
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
+          }
+          if (this.filmID == "") {
+            window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}&`;
+          } else {
+            window.location.hash = `${this.filmName}&${this.filmYear}&${this.filmType}&${this.filmID}`;
+          }
+          this.ajax = true;
+        })
+        .catch(error => {
+          console.log(error);
+        });
       this.cooldownAjax = true;
       setTimeout(() => {
         this.cooldownAjax = false;
@@ -280,7 +289,15 @@ export default {
 .films {
   display: flex;
   flex-wrap: wrap;
+  min-height: 60vh;
   padding: 0 calc(13% - 2.5rem);
+
+  &__no-results {
+    align-self: center;
+    justify-self: center;
+    width: 70%;
+    margin: 1.5rem auto 0 auto;
+  }
 
   &__film {
     display: flex;
