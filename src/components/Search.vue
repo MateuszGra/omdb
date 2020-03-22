@@ -57,10 +57,16 @@
       </template>
       <Loader v-if="!ajax" clas="search" />
       <img
-        v-if="error"
+        v-if="error && winHeight >= 800"
         class="films__no-results"
         alt="no results"
         src="../assets/no-search-result.png"
+      />
+      <img
+        v-if="error && winHeight < 800"
+        class="films__no-results"
+        alt="no results"
+        src="../assets/o-search-resoult-mobile.png"
       />
     </section>
   </div>
@@ -80,6 +86,7 @@ export default {
 
   data() {
     return {
+      winHeight: window.innerHeight,
       ajax: false,
       PopUpClass: "hide",
       filmID: "",
@@ -110,6 +117,9 @@ export default {
     }
     this.getMovies();
     window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener("resize", () => {
+      this.winHeight = window.innerHeight;
+    });
   },
 
   methods: {
