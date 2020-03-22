@@ -69,4 +69,11 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: white;
+}
 </style>
