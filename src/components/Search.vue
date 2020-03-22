@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <PopUp @clicked="handlePopUp" :PopUpClass="PopUpClass" :filmID="filmID" />
     <router-link class="home-link" to="/">home</router-link>
     <section class="options">
@@ -178,6 +178,11 @@ export default {
 
 
 <style lang="scss" scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 .home-link {
   position: absolute;
   top: 5.6rem;
@@ -289,11 +294,11 @@ export default {
 .films {
   display: flex;
   flex-wrap: wrap;
-  min-height: 60vh;
+  flex-grow: 1;
   padding: 0 calc(13% - 2.5rem);
 
   &__no-results {
-    align-self: center;
+    align-self: flex-end;
     justify-self: center;
     width: 70%;
     margin: 1.5rem auto 0 auto;
@@ -304,7 +309,7 @@ export default {
     flex-direction: column;
     margin-top: 6rem;
     padding: 0 2.5rem;
-    width: calc(25%);
+    width: 25%;
     cursor: pointer;
 
     &:hover .films__poster-wrapper::after {
@@ -406,6 +411,224 @@ export default {
     transition: transform 0.5s, opacity 0.5s;
     opacity: 0;
     transform: translateY(2rem);
+  }
+}
+
+@media (max-width: 1440px) {
+  .options {
+    padding: 5.6rem 10% 0 10%;
+  }
+
+  .films {
+    padding: 0 8%;
+
+    &__title {
+      font-size: 2.5rem;
+      margin-top: 1.5rem;
+    }
+
+    &__year {
+      font-size: 1.6rem;
+    }
+
+    &__type {
+      font-size: 1.6rem;
+      background-size: 1.6rem;
+    }
+    &__info {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+@media (max-width: 1380px) {
+  .home-link {
+    height: 4rem;
+    background-size: 1.6rem;
+    background-position: calc(100% - 1.8rem);
+    font-size: 1.6rem;
+    line-height: 4rem;
+    padding: 0 5rem 0 1rem;
+    transform: translate(-7rem);
+  }
+  .input {
+    height: 4rem;
+    font-size: 1.6rem;
+  }
+  .filters {
+    &__label {
+      font-size: 1.6rem;
+    }
+
+    &__option {
+      width: 20rem;
+    }
+  }
+
+  .search {
+    &__input {
+      width: 25rem;
+      background-size: 1.6rem;
+      padding-left: 4rem;
+      background-position: 1.5rem;
+    }
+
+    &__btn {
+      font-size: 1.6rem;
+      padding: 1.2rem 3rem;
+    }
+  }
+
+  .results {
+    font-size: 1.4rem;
+  }
+
+  .films {
+    &__arrow {
+      font-size: 1.6rem;
+      background-size: 3rem;
+      padding-left: 4rem;
+    }
+  }
+}
+
+@media (max-width: 1380px) {
+  .filters {
+    width: 60%;
+  }
+
+  .input {
+    width: 30%;
+  }
+
+  .search {
+    display: flex;
+    width: 40%;
+
+    &__input {
+      flex-grow: 1;
+    }
+  }
+
+  .films {
+    &__poster-wrapper {
+      &::after {
+        box-shadow: -0.4rem -0.4rem 0 #1ea0ef, 0.4rem 0.4rem 0 #f40048;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .filters {
+    &__option {
+      padding-left: 2rem;
+    }
+  }
+  .films {
+    &__film {
+      width: 33%;
+    }
+  }
+}
+
+@media (max-width: 1000px) {
+  .home-link {
+    &:hover {
+      transform: translate(-7rem);
+      box-shadow: none;
+    }
+  }
+  .films {
+    &__film {
+      width: 33%;
+    }
+    &__no-results {
+      width: 90%;
+    }
+  }
+
+  .options {
+    &__row {
+      flex-direction: column;
+    }
+  }
+
+  .filters {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    &__option {
+      flex-grow: 1;
+    }
+  }
+
+  .search {
+    width: 100%;
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .home-link {
+    top: 2rem;
+  }
+
+  .search {
+    margin-top: 1rem;
+
+    &__btn {
+      padding: 1.2rem 1.5rem;
+    }
+  }
+
+  .options {
+    padding: 7rem 5% 0 5%;
+  }
+
+  .filters {
+    &__option {
+      margin-left: 0.8rem;
+    }
+  }
+  .films {
+    padding: 0 3%;
+
+    &__no-results {
+      width: 100%;
+    }
+
+    &__arrow {
+      display: none;
+    }
+    &__film {
+      width: 50%;
+      margin-top: 3rem;
+      padding: 0 1.5rem;
+    }
+
+    &__title {
+      font-size: 2rem;
+      line-height: 110%;
+      margin: 1rem 0 0 0;
+      padding: 0 7%;
+    }
+
+    &__year {
+      font-size: 1.2rem;
+    }
+
+    &__type {
+      font-size: 1.2rem;
+      background-size: 1.2rem;
+      padding-left: 2rem;
+    }
+
+    &__info {
+      margin-bottom: 0.5rem;
+      padding: 0 7%;
+    }
   }
 }
 </style>

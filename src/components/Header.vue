@@ -247,7 +247,7 @@ export default {
   }
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1440px) {
   .header {
     &__images {
       width: 40%;
