@@ -776,12 +776,12 @@ export default {
       text-transform: none;
       font-size: 1.4rem;
       font-weight: 200;
-      padding: 1rem 1.5rem 1rem 5rem;
-      border-radius: 1.5rem;
+      padding: 1rem 2.5rem 1rem 5.5rem;
+      border-radius: 2rem;
       background-image: url("../assets/arrow-icon-rotated.svg");
       background-repeat: no-repeat;
       background-size: 3rem;
-      background-position: 1.5rem center;
+      background-position: 2rem center;
       margin-top: 2rem;
     }
   }
