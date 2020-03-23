@@ -35,6 +35,9 @@
       </div>
     </section>
     <section class="films">
+      <transition name="fade">
+        <button v-if="showButton" v-on:click="scrollToTop" class="scroll btn"></button>
+      </transition>
       <template v-for="list in films">
         <div
           class="films__film"
@@ -87,6 +90,8 @@ export default {
   data() {
     return {
       winWidth: window.innerWidth,
+      showButton: false,
+      prevScrollpos: window.pageYOffset,
       ajax: false,
       PopUpClass: "hide",
       filmID: "",
@@ -123,6 +128,30 @@ export default {
   },
 
   methods: {
+    scrollToTop() {
+      const targetPosition = 0;
+      const startPosition = window.scrollY;
+      const distance = targetPosition - startPosition;
+      const duration = 700;
+      let start = null;
+      window.requestAnimationFrame(step);
+
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        const progress = timestamp - start;
+        window.scrollTo(
+          0,
+          easeInOutCubic(progress, startPosition, distance, duration)
+        );
+        if (progress < duration) window.requestAnimationFrame(step);
+      }
+      const easeInOutCubic = (t, b, c, d) => {
+        t /= d / 2;
+        if (t < 1) return (c / 2) * t * t * t + b;
+        t -= 2;
+        return (c / 2) * (t * t * t + 2) + b;
+      };
+    },
     handlePopUp(value) {
       this.PopUpClass = value;
       this.filmID = "";
@@ -148,6 +177,18 @@ export default {
       ) {
         this.getMovies();
       }
+
+      //show button scroll-to-top
+      const currentScrollPos = window.pageYOffset;
+      if (
+        window.scrollY > window.innerHeight / 2 &&
+        this.prevScrollpos > currentScrollPos
+      ) {
+        this.showButton = true;
+      } else {
+        this.showButton = false;
+      }
+      this.prevScrollpos = currentScrollPos;
     },
     getMovies() {
       this.pages++;
@@ -188,6 +229,15 @@ export default {
 
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -424,9 +474,27 @@ export default {
   }
 }
 
+.scroll {
+  position: fixed;
+  height: 6rem;
+  width: 6rem;
+  bottom: 5%;
+  right: 4%;
+  border-radius: 17px;
+  background-image: url("../assets/scroll.svg");
+  background-size: 2rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 10;
+}
+
 @media (max-width: 1440px) {
   .options {
     padding: 5.6rem 10% 0 10%;
+  }
+
+  .scroll {
+    right: 3%;
   }
 
   .films {
@@ -639,6 +707,14 @@ export default {
       margin-bottom: 0.5rem;
       padding: 0 7%;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .scroll {
+    width: 4.5rem;
+    height: 4.5rem;
+    background-size: 1.5rem;
   }
 }
 </style>

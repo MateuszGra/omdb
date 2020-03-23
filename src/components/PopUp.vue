@@ -422,6 +422,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-bottom-left-radius: 1.7rem;
   }
 }
 
@@ -510,6 +511,7 @@ export default {
     font-size: 1.8rem;
     font-weight: 200;
     width: 100%;
+    max-height: 30rem;
     margin: 2rem 0;
     flex-grow: 1;
   }
@@ -743,6 +745,7 @@ export default {
     &__image {
       border-top-left-radius: 1.7rem;
       border-top-right-radius: 1.7rem;
+      border-bottom-left-radius: 0;
     }
   }
 
