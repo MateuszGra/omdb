@@ -226,7 +226,7 @@ export default {
     &__input {
       height: 6rem;
       background-size: 2.5rem;
-      background-position: 2rem;
+      background-position: 1.8rem;
       width: 70%;
       padding-left: 6rem;
       font-size: 1.8rem;
@@ -239,7 +239,7 @@ export default {
 
   @keyframes show-input {
     0% {
-      max-width: 5rem;
+      max-width: 6rem;
     }
     100% {
       max-width: 100%;

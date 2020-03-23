@@ -98,6 +98,7 @@
               </div>
             </div>
           </div>
+          <button class="popup__back btn js-close">back</button>
         </div>
       </div>
       <Loader v-if="!ajax" clas="popup" />
@@ -219,12 +220,18 @@ export default {
     }
   }
 
+  &__back {
+    display: none;
+  }
+
   &__content {
     position: absolute;
     left: 50%;
     top: 50%;
     width: 75%;
+    max-width: 144rem;
     height: 90%;
+    max-height: 90%;
     background: #090331;
     border-radius: 1.7rem;
     box-shadow: 0px 0px 4rem #ffffff66;
@@ -384,6 +391,7 @@ export default {
     align-items: center;
     font-family: "Baloo 2", cursive;
     font-weight: 400;
+    margin-left: 1rem;
   }
 
   &__number {
@@ -420,7 +428,7 @@ export default {
 .content {
   display: flex;
   flex-direction: column;
-  padding: 4rem 8.7rem;
+  padding: 4rem 4%;
   width: 68%;
   overflow: auto;
   &::-webkit-scrollbar {
@@ -454,6 +462,7 @@ export default {
     font-family: "Montserrat", sans-serif;
     width: 55%;
   }
+
   &__box-row {
     display: flex;
     align-items: center;
@@ -606,5 +615,248 @@ export default {
   height: 4rem;
   width: 0.1rem;
   background: rgba(250, 250, 250, 0.2);
+}
+
+@media (max-width: 1600px) {
+  .popup {
+    &__content {
+      width: 90%;
+    }
+
+    &__glass3d {
+      top: 67%;
+      right: -5%;
+      width: 28rem;
+    }
+
+    &__left-col {
+      width: 37%;
+    }
+  }
+
+  .content {
+    width: 63%;
+  }
+}
+
+@media (max-width: 1440px) {
+  .popup {
+    &__content {
+      width: 90%;
+    }
+
+    &__glass3d {
+      top: 77%;
+      right: -5%;
+      width: 25rem;
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .content {
+    &__box-1 {
+      padding: 2rem;
+    }
+
+    &__title {
+      font-size: 3.5rem;
+    }
+
+    &__time {
+      font-size: 1.8rem;
+    }
+    &__type {
+      font-size: 1.8rem;
+    }
+
+    &__box-row {
+      &:first-child {
+        padding-bottom: 1.5rem;
+      }
+
+      &:last-child {
+        padding-top: 1.5rem;
+      }
+    }
+  }
+
+  .rating {
+    &__votes {
+      font-size: 1.8rem;
+    }
+
+    &__numbers {
+      & .big {
+        font-size: 4rem;
+      }
+    }
+  }
+  .clock {
+    height: 3rem;
+    width: 3rem;
+    margin-right: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  body {
+    overflow: hidden;
+  }
+
+  .popup {
+    overflow: auto;
+
+    &__glass3d {
+      display: none;
+    }
+
+    &__content {
+      position: static;
+      max-height: unset;
+      transform: translate(0);
+      margin: 3rem auto;
+      height: unset;
+    }
+
+    &__resp {
+      flex-direction: column;
+    }
+
+    &__left-col {
+      width: 100%;
+    }
+
+    &__btn {
+      background: #090331;
+      z-index: 100;
+      top: 0;
+      right: 0;
+      width: 6rem;
+      height: 6rem;
+      border-top-right-radius: 1.7rem;
+    }
+  }
+
+  .poster {
+    height: 40vh;
+    &__image {
+      border-top-left-radius: 1.7rem;
+      border-top-right-radius: 1.7rem;
+    }
+  }
+
+  .rating {
+    height: 7rem;
+    width: calc(100% - 6rem);
+    border-top-right-radius: 0;
+
+    &__votes {
+      font-size: 1.2rem;
+    }
+  }
+
+  .content {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .popup {
+    &__content {
+      width: 95%;
+    }
+
+    &__back {
+      display: block;
+      align-self: center;
+      text-transform: none;
+      font-size: 1.4rem;
+      font-weight: 200;
+      padding: 1rem 1.5rem 1rem 5rem;
+      border-radius: 1.5rem;
+      background-image: url("../assets/arrow-icon-rotated.svg");
+      background-repeat: no-repeat;
+      background-size: 3rem;
+      background-position: 1.5rem center;
+      margin-top: 2rem;
+    }
+  }
+
+  .rating {
+    padding: 0 1rem;
+
+    &__number {
+      &.big {
+        font-size: 3rem;
+      }
+
+      &.medium {
+        font-size: 2rem;
+      }
+      &.small {
+        font-size: 1.8rem;
+      }
+    }
+
+    &__star {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .content {
+    padding: 2rem 4%;
+    &__row-1 {
+      flex-direction: column;
+    }
+
+    &__title {
+      width: 100%;
+      text-align: center;
+    }
+
+    &__box-1 {
+      width: 100%;
+      margin-top: 2rem;
+    }
+
+    &__plot {
+      text-align: center;
+    }
+
+    &__box-row1 {
+      flex-direction: column;
+      width: 90%;
+    }
+    &__actors {
+      margin-left: 0;
+      width: 100%;
+      text-align: center;
+    }
+    &__awards {
+      margin-left: 0;
+      width: 100%;
+      text-align: center;
+    }
+    &__text {
+      font-size: 1.2rem;
+      margin-left: 15%;
+    }
+  }
+
+  .label {
+    margin: 0;
+    min-width: auto;
+
+    &--big {
+      font-size: 2.8rem;
+    }
+    &--small {
+      font-size: 2rem;
+      min-width: 7rem;
+      margin-left: 5%;
+    }
+  }
 }
 </style>
