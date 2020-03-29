@@ -736,7 +736,7 @@ export default {
       top: 0;
       right: 0;
       width: 6rem;
-      height: 5.7rem;
+      height: 5.5rem;
       border-top-right-radius: 1.7rem;
     }
   }
