@@ -746,11 +746,10 @@ export default {
   }
 
   .poster {
+    margin-top: 5.5rem;
     height: 40vh;
     &__image {
-      border-top-left-radius: 1.7rem;
-      border-top-right-radius: 1.7rem;
-      border-bottom-left-radius: 0;
+      border-radius: 0;
       object-position: top;
     }
   }
