@@ -32,7 +32,6 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #090331;
   animation: show 2s;
 
   &.search {
