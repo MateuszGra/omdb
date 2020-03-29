@@ -9,7 +9,8 @@ export default {
   name: "ParticlesJS",
 
   mounted() {
-    require("../particles.js");
+    /* eslint-disable */
+    require("../particles.min.js");
     this.$nextTick(() => {
       this.initParticlesJS();
     });
