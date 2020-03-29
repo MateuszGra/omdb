@@ -684,11 +684,6 @@ export default {
     &__arrow {
       display: none;
     }
-    &__film {
-      width: 50%;
-      margin-top: 3rem;
-      padding: 0 1.5rem;
-    }
 
     &__title {
       font-size: 2rem;
@@ -719,6 +714,14 @@ export default {
     width: 4.5rem;
     height: 4.5rem;
     background-size: 1.5rem;
+  }
+
+  .films {
+    &__film {
+      width: 50%;
+      margin-top: 3rem;
+      padding: 0 1.5rem;
+    }
   }
 }
 </style>

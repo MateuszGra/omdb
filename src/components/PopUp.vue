@@ -246,6 +246,10 @@ export default {
     width: 35rem;
     transform: rotate(-35deg);
     z-index: 11;
+
+    &:hover {
+      opacity: 0.4;
+    }
   }
 
   &__resp {

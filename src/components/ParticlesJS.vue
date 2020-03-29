@@ -1,5 +1,7 @@
 <template>
-  <div class="particles-js" id="particles-js"></div>
+  <div class="particles-js" id="particles-js">
+    <img class="particles-js__title" src="../assets/movie.svg" />
+  </div>
 </template>
 
 <script>
@@ -138,5 +140,13 @@ export default {
   height: 100%;
   z-index: -1;
   opacity: 0.6;
+
+  &__title {
+    position: absolute;
+    left: 0;
+    top: 10%;
+    width: 45%;
+    opacity: 0.04;
+  }
 }
 </style>
