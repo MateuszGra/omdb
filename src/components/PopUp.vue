@@ -231,7 +231,7 @@ export default {
     width: 75%;
     max-width: 144rem;
     height: 90%;
-    max-height: 90%;
+    max-height: 90rem;
     background: #090331;
     border-radius: 1.7rem;
     box-shadow: 0px 0px 4rem #ffffff66;
@@ -715,10 +715,11 @@ export default {
 
     &__content {
       position: static;
-      max-height: unset;
       transform: translate(0);
       margin: 3rem auto;
       height: unset;
+      min-height: 90vh;
+      max-height: unset;
     }
 
     &__resp {
@@ -735,7 +736,7 @@ export default {
       top: 0;
       right: 0;
       width: 6rem;
-      height: 6rem;
+      height: 5.7rem;
       border-top-right-radius: 1.7rem;
     }
   }
@@ -746,6 +747,7 @@ export default {
       border-top-left-radius: 1.7rem;
       border-top-right-radius: 1.7rem;
       border-bottom-left-radius: 0;
+      object-position: top;
     }
   }
 

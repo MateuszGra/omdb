@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <ParticlesJS />
     <PopUp @clicked="handlePopUp" :PopUpClass="PopUpClass" :filmID="filmID" />
     <router-link class="home-link" to="/">home</router-link>
     <section class="options">
@@ -79,12 +80,14 @@
 import axios from "axios";
 import PopUp from "./PopUp.vue";
 import Loader from "./Loader.vue";
+import ParticlesJS from "./ParticlesJS.vue";
 
 export default {
   name: "Search",
   components: {
     PopUp,
-    Loader
+    Loader,
+    ParticlesJS
   },
 
   data() {
@@ -190,6 +193,7 @@ export default {
       }
       this.prevScrollpos = currentScrollPos;
     },
+    bgAnimation() {},
     getMovies() {
       this.pages++;
       this.error = false;
