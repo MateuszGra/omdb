@@ -33,9 +33,12 @@ export default {
   width: 100%;
   height: 100%;
   animation: show 2s;
+  align-self: center;
+  justify-self: center;
 
   &.search {
     min-height: 30rem;
+    flex-basis: 100%;
   }
 
   &__wrappeer {
