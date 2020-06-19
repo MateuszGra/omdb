@@ -1,7 +1,7 @@
 #Popcorn
 Vue.js web application.
 
-LIVE: https://omdb.mgrabowski.usermd.net/
+LIVE: https://popcorn.mgrabowski.eu/
 API: http://www.omdbapi.com/
 
 ## Project setup
